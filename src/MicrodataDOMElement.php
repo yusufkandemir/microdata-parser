@@ -7,12 +7,8 @@ class MicrodataDOMElement extends \DOMElement
     public function getProperties()
     {
         $results = [];
-        $memory = [];
-        $pending = [];
-
-        $memory[] = $this;
-
-        $pending = array_merge($pending, $this->getChildElementNodes());
+        $memory = [$this];
+        $pending = $this->getChildElementNodes();
 
         if ($this->hasAttribute('itemref')) {
             $tokens = $this->tokenizeAttribute('itemref');
@@ -37,12 +33,16 @@ class MicrodataDOMElement extends \DOMElement
                 $pending = array_merge($pending, $current->getChildElementNodes());
             }
 
-            if ($current->hasAttribute('itemprop') && /* hasPropertyNames */ $current->getPropertyNames()) {
+            if ($current->hasAttribute('itemprop') && $current->hasPropertyNames()) {
                 $results[] = $current;
             }
         }
 
         return array_reverse($results);
+    }
+
+    public function hasPropertyNames() {
+        return !empty($this->tokenizeAttribute('itemprop'));
     }
 
     public function getPropertyNames()
