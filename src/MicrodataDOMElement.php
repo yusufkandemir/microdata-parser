@@ -59,14 +59,11 @@ class MicrodataDOMElement extends \DOMElement
             $properties[] = $token;
         }
 
-        $properties = array_unique($properties);
-
-        return $properties;
+        return array_unique($properties);
     }
 
     public function getPropertyValue()
     {
-
         if ($this->hasAttribute('itemscope')) {
             return $this;
         }
