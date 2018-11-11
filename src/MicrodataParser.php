@@ -23,12 +23,9 @@ class MicrodataParser
         $items = [];
 
         // Step 3
-        // items = map("top-level microdata items", item => getObject(item))
-        $items = array_map([$this, 'getObject'], iterator_to_array($this->topLevelItems));
-
-        /*foreach ($topLevelItems as $topLevelItem) {
-            $items[] = getObject($topLevelItem);
-        }*/
+        foreach ($this->topLevelItems as $topLevelItem) {
+            $items[] = $this->getObject($topLevelItem);
+        }
 
         // Step 4
         $result->items = $items;
