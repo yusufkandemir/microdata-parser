@@ -41,7 +41,8 @@ class MicrodataDOMElement extends \DOMElement
         return array_reverse($results);
     }
 
-    public function hasPropertyNames() {
+    public function hasPropertyNames()
+    {
         return !empty($this->tokenizeAttribute('itemprop'));
     }
 
