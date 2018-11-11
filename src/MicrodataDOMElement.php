@@ -88,6 +88,7 @@ class MicrodataDOMElement extends \DOMElement
                     // @todo check against protocol relative urls like "//example.com/test.jpg"
                     return $this->isAbsoluteUri($result) ? $result : $base.$result;
                 }
+                // No break
             case 'a':
             case 'area':
             case 'link':
@@ -96,21 +97,25 @@ class MicrodataDOMElement extends \DOMElement
 
                     return $this->isAbsoluteUri($result) ? $result : $base.$result;
                 }
+                // No break
             case 'object':
                 if ($this->hasAttribute('data')) {
                     $result = $this->getAttribute('data');
 
                     return $this->isAbsoluteUri($result) ? $result : $base.$result;
                 }
+                // No break
             case 'data':
             case 'meter':
                 if ($this->hasAttribute('value')) {
                     return $this->getAttribute('value');
                 }
+                // No break
             case 'time':
                 if ($this->hasAttribute('datetime')) {
                     return $this->getAttribute('datetime');
                 }
+                // No break
             default:
                 return $this->textContent;
         }
