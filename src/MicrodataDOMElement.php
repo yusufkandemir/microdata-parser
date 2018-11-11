@@ -12,15 +12,7 @@ class MicrodataDOMElement extends \DOMElement
 
         $memory[] = $this;
 
-        if ($this->hasChildNodes()) {
-            $childNodes = iterator_to_array($this->childNodes);
-
-            $childNodes = array_filter($childNodes, function ($node) {
-                return $node instanceof \DOMElement;
-            }); // Get only DOMElements
-
-            $pending = array_merge($pending, $childNodes);
-        }
+        $pending = array_merge($pending, $this->getChildElementNodes());
 
         if ($this->hasAttribute('itemref')) {
             $tokens = preg_split('/\s+/', $this->getAttribute('itemref'));
@@ -33,32 +25,16 @@ class MicrodataDOMElement extends \DOMElement
         while ($pending) {
             $current = array_pop($pending);
 
-            $error = false;
-
             foreach ($memory as $memory_item) {
                 if ($current->isSameNode($memory_item)) {
-                    // There is MicrodataError
-                    $error = true;
-                    break;
+                    continue 2; // Skip next part and continue while loop if memory contains $current
                 }
-            }
-
-            if ($error) {
-                continue;
             }
 
             $memory[] = $current;
 
             if (! $current->hasAttribute('itemscope')) {
-                if ($current->hasChildNodes()) {
-                    $childNodes = iterator_to_array($current->childNodes);
-
-                    $childNodes = array_filter($childNodes, function ($node) {
-                        return $node instanceof \DOMElement;
-                    });
-
-                    $pending = array_merge($pending, $childNodes);
-                }
+                $pending = array_merge($pending, $current->getChildElementNodes());
             }
 
             if ($current->hasAttribute('itemprop') && /* hasPropertyNames */ $current->getPropertyNames()) {
@@ -162,5 +138,18 @@ class MicrodataDOMElement extends \DOMElement
     protected function isAbsoluteUri(string $uri)
     {
         return preg_match("/^\w+:/", trim($uri));
+    }
+
+    protected function getChildElementNodes()
+    {
+        $childNodes = [];
+
+        foreach ($this->childNodes as $childNode) {
+            if ($childNode->nodeType == XML_ELEMENT_NODE) {
+                $childNodes[] = $childNode;
+            }
+        }
+
+        return $childNodes;
     }
 }

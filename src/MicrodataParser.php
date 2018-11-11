@@ -18,13 +18,11 @@ class MicrodataParser
     {
         $result = new \stdClass;
 
-        $items = [];
+        $result->items = [];
 
         foreach ($this->topLevelItems as $topLevelItem) {
-            $items[] = $this->getObject($topLevelItem);
+            $result->items[] = $this->getObject($topLevelItem);
         }
-
-        $result->items = $items;
 
         return $result;
     }
@@ -53,6 +51,7 @@ class MicrodataParser
                 foreach ($memory as $memory_item) {
                     if ($element->isSameNode($memory_item)) {
                         $value = 'ERROR';
+                        break;
                     }
                 }
 
