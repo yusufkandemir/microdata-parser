@@ -33,7 +33,7 @@ class MicrodataParser
 
         $memory[] = $item;
 
-        $result->type = $this->tokenizeAttribute('itemtype');
+        $result->type = $item->tokenizeAttribute('itemtype');
         // @todo Check if types are valid absolute urls
 
         if ($item->hasAttribute('itemid')) {
