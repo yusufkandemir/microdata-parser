@@ -33,12 +33,11 @@ class MicrodataParser
 
         $memory[] = $item;
 
-        $itemtype = $item->getAttribute('itemtype');
-        $result->type = $itemtype ? preg_split('/\s+/', $itemtype) : [];
+        $result->type = $this->tokenizeAttribute('itemtype');
         // @todo Check if types are valid absolute urls
 
-        if ($itemId = $item->getAttribute('itemid')) {
-            $result->id = $itemId;
+        if ($item->hasAttribute('itemid')) {
+            $result->id = $item->getAttribute('itemid');
         }
         // @todo Check if item ids are valid absolute urls or like isbn:xxx
 

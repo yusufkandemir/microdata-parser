@@ -15,7 +15,7 @@ class MicrodataDOMElement extends \DOMElement
         $pending = array_merge($pending, $this->getChildElementNodes());
 
         if ($this->hasAttribute('itemref')) {
-            $tokens = preg_split('/\s+/', $this->getAttribute('itemref'));
+            $tokens = $this->tokenizeAttribute('itemref');
 
             foreach ($tokens as $token) {
                 // @todo Implement xpath query and get the first item
@@ -42,26 +42,21 @@ class MicrodataDOMElement extends \DOMElement
             }
         }
 
-        $results = array_reverse($results);
-
-        return $results;
+        return array_reverse($results);
     }
 
     public function getPropertyNames()
     {
-        $itemprop = $this->getAttribute('itemprop');
-        $tokens = $itemprop ? preg_split('/\s+/', $itemprop) : [];
+        $tokens = $this->tokenizeAttribute('itemprop');
 
         $properties = [];
 
         foreach ($tokens as $token) {
-            if ($this->isAbsoluteUri($token)) {
-                $properties[] = $token;
-            } elseif ($this->isTypedItem()) {
-                $properties[] = /*$vocabularyIdentifier . */ $token;
-            } else {
-                $properties[] = $token;
+            if (!$this->isAbsoluteUri($token) && $this->tokenizeAttribute('itemtype')) {
+                $token = /*$vocabularyIdentifier . */ $token;
             }
+
+            $properties[] = $token;
         }
 
         $properties = array_unique($properties);
@@ -124,17 +119,6 @@ class MicrodataDOMElement extends \DOMElement
         }
     }
 
-    public function isTypedItem()
-    {
-        $tokens = [];
-
-        if ($this->hasAttribute('itemtype')) {
-            $tokens = preg_split("/\s+/", $this->getAttribute('itemtype'));
-        }
-
-        return !empty($tokens);
-    }
-
     protected function isAbsoluteUri(string $uri)
     {
         return preg_match("/^\w+:/", trim($uri));
@@ -151,5 +135,20 @@ class MicrodataDOMElement extends \DOMElement
         }
 
         return $childNodes;
+    }
+
+    public function tokenizeAttribute($attributeName) {
+        $attribute = [];
+
+        if($this->hasAttribute($attributeName)) {
+            $attribute = $this->tokenize($this->getAttribute($attributeName));
+        }
+
+        return $attribute;
+    }
+
+    protected function tokenize($attribute)
+    {
+        return preg_split('/\s+/', trim($attribute));
     }
 }
