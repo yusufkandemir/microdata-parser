@@ -6,15 +6,12 @@ class MicrodataDOMElement extends \DOMElement
 {
     public function getProperties()
     {
-        // Step 1
         $results = [];
         $memory = [];
         $pending = [];
 
-        // Step 2
         $memory[] = $this;
 
-        // Step 3
         if ($this->hasChildNodes()) {
             $childNodes = iterator_to_array($this->childNodes);
 
@@ -25,7 +22,6 @@ class MicrodataDOMElement extends \DOMElement
             $pending = array_merge($pending, $childNodes);
         }
 
-        // Step 4
         if ($this->hasAttribute('itemref')) {
             $tokens = preg_split('/\s+/', $this->getAttribute('itemref'));
 
@@ -34,17 +30,9 @@ class MicrodataDOMElement extends \DOMElement
             }
         }
 
-        // Step 5
         while ($pending) {
-            // Step 6
             $current = array_pop($pending);
 
-            // Step 7
-            // in_array can't compare objects
-            /*if (in_array($current, $memory)) {
-                // There is MicrodataError
-                continue;
-            }*/
             $error = false;
 
             foreach ($memory as $memory_item) {
@@ -59,10 +47,8 @@ class MicrodataDOMElement extends \DOMElement
                 continue;
             }
 
-            // Step 8
             $memory[] = $current;
 
-            // Step 9
             if (! $current->hasAttribute('itemscope')) {
                 if ($current->hasChildNodes()) {
                     $childNodes = iterator_to_array($current->childNodes);
@@ -75,32 +61,23 @@ class MicrodataDOMElement extends \DOMElement
                 }
             }
 
-            // Step 10
             if ($current->hasAttribute('itemprop') && /* hasPropertyNames */ $current->getPropertyNames()) {
                 $results[] = $current;
             }
-
-            // Step 11: Return to loop
         }
-
-        // Step 12: End of loop. Sort results in tree order.
 
         $results = array_reverse($results);
 
-        // Step 13
         return $results;
     }
 
     public function getPropertyNames()
     {
-        // Step 1
         $itemprop = $this->getAttribute('itemprop');
         $tokens = $itemprop ? preg_split('/\s+/', $itemprop) : [];
 
-        // Step 2
         $properties = [];
 
-        // Step 3
         foreach ($tokens as $token) {
             if ($this->isAbsoluteUri($token)) {
                 $properties[] = $token;

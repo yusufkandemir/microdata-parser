@@ -16,50 +16,36 @@ class MicrodataParser
 
     public function extractMicrodata()
     {
-        // Step 1
         $result = new \stdClass;
 
-        // Step 2
         $items = [];
 
-        // Step 3
         foreach ($this->topLevelItems as $topLevelItem) {
             $items[] = $this->getObject($topLevelItem);
         }
 
-        // Step 4
         $result->items = $items;
 
-        // Step 5
         return $result;
     }
 
     protected function getObject(\DOMElement $item, $memory = [])
     {
-        // Step 1
         $result = new \stdClass;
 
-        // Step 2 in 2nd parameter of this function
-        // $memory = [];
-
-        // Step 3
         $memory[] = $item;
 
-        // Step 4
         $itemtype = $item->getAttribute('itemtype');
         $result->type = $itemtype ? preg_split('/\s+/', $itemtype) : [];
         // @todo Check if types are valid absolute urls
 
-        // Step 5
         if ($itemId = $item->getAttribute('itemid')) {
             $result->id = $itemId;
         }
         // @todo Check if item ids are valid absolute urls or like isbn:xxx
 
-        // Step 6
         $properties = new \stdClass;
 
-        // Step 7
         foreach ($item->getProperties() as $element) {
             $value = $element->getPropertyValue();
 
@@ -80,10 +66,8 @@ class MicrodataParser
             }
         }
 
-        // Step 8
         $result->properties = $properties;
 
-        // Step 9
         return $result;
     }
 
