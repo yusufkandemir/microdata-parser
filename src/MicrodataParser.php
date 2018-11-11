@@ -27,7 +27,7 @@ class MicrodataParser
         return $result;
     }
 
-    protected function getObject(\DOMElement $item, $memory = [])
+    protected function getObject(MicrodataDOMElement $item, $memory = [])
     {
         $result = new \stdClass;
 
@@ -71,6 +71,6 @@ class MicrodataParser
 
     protected function isItem($element)
     {
-        return $element instanceof \DOMElement && $element->hasAttribute('itemscope');
+        return $element instanceof MicrodataDOMElement && $element->hasAttribute('itemscope');
     }
 }
