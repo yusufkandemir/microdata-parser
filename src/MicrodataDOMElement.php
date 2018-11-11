@@ -134,10 +134,11 @@ class MicrodataDOMElement extends \DOMElement
         return $childNodes;
     }
 
-    public function tokenizeAttribute($attributeName) {
+    public function tokenizeAttribute($attributeName)
+    {
         $attribute = [];
 
-        if($this->hasAttribute($attributeName)) {
+        if ($this->hasAttribute($attributeName)) {
             $attribute = $this->tokenize($this->getAttribute($attributeName));
         }
 
