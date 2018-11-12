@@ -11,7 +11,8 @@ class MicrodataParserTest extends \PHPUnit\Framework\TestCase
         libxml_use_internal_errors(true); // Ignore warnings of DOMDocument::loadHTML check
     }
 
-    protected function getParser($data) {
+    protected function getParser($data)
+    {
         $dom = new \DOMDocument;
         $dom->loadHTML($data['source']);
         $dom->documentURI = $data['uri'];
