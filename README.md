@@ -21,9 +21,44 @@ $ composer require yusufkandemir/microdata-parser
 
 ## Usage
 
-``` php
-$parser = new YusufKandemir\MicrodataParser();
-$microdata = $parser->extractMicrodata();
+##### PHP
+```php
+use YusufKandemir\MicrodataParser\Microdata;
+
+$microdata = Microdata::fromHTMLFile('source.html')->toJSON();
+/* Other sources:
+     fromHTML()        // from HTML string
+     fromDOMDocument() // from DOMDocument object
+   Other output methods:
+     toArray()  // to Associtive PHP Array
+     toObject() // to PHP Object (stdClass)
+*/
+```
+
+##### Source as HTML
+```html
+<!-- source.html -->
+<div itemscope itemtype="http://schema.org/Product">
+  <img itemprop="image" src="http://shop.example.com/test_product.jpg" />
+  <a itemprop="url" href="http://shop.example.com/test_product">
+    <span itemprop="name">Test Product</span>
+  </a>
+</div>
+```
+##### Result as JSON
+```json
+{
+  "items": [
+    {
+      "type": [ "http://schema.org/Product" ],
+      "properties": {
+        "image": [ "http://shop.example.com/test_product.jpg" ],
+        "url": [ "http://shop.example.com/test_product" ]
+        "name": [ "Test Product" ]
+      }
+    }
+  ]
+}
 ```
 
 ## Change log
