@@ -16,7 +16,7 @@ abstract class Microdata
     public static function fromHTMLFile($filename, $documentURI = '')
     {
         $dom = new MicrodataDOMDocument;
-        $dom->loadHTMLFile($filename);
+        $dom->loadHTMLFile($filename, LIBXML_NOERROR);
         $dom->documentURI = $documentURI;
 
         return new MicrodataParser($dom);
