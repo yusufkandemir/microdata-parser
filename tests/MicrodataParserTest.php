@@ -67,6 +67,9 @@ class MicrodataParserTest extends \PHPUnit\Framework\TestCase
             'W3C Example' => [
                 $this->getTestData('W3C', 'source.html', 'result.json')
             ],
+            'Itemref & src based tags' => [
+                $this->getTestData('Itemref', 'source.html', 'result.json')
+            ],
         ];
     }
 

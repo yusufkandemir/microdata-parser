@@ -14,7 +14,11 @@ class MicrodataDOMElement extends \DOMElement
             $tokens = $this->tokenizeAttribute('itemref');
 
             foreach ($tokens as $token) {
-                // @todo Implement xpath query and get the first item
+                $references = $this->ownerDocument->xpath->query('//*[@id="'.$token.'"]');
+
+                if ($first = $references->item(0)) {
+                    $pending[] = $first;
+                }
             }
         }
 

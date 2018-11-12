@@ -1,0 +1,20 @@
+{
+  "items": [
+    {
+      "type": [ "http://n.whatwg.org/work" ],
+      "properties": {
+        "work": [ "http://blog.example.com/gallery/images/house.jpeg" ],
+        "title": [ "The house I found." ],
+        "license": [ "http://www.opensource.org/licenses/mit-license.php" ]
+      }
+    },
+    {
+      "type": [ "http://n.whatwg.org/work" ],
+      "properties": {
+        "work": [ "http://blog.example.com/gallery/images/mailbox.jpeg" ],
+        "title": [ "The mailbox." ],
+        "license": [ "http://www.opensource.org/licenses/mit-license.php" ]
+      }
+    }
+  ]
+}
