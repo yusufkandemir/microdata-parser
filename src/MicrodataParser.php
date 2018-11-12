@@ -14,6 +14,22 @@ class MicrodataParser
         $this->topLevelItems = $xpath->query('//*[@itemscope and not(@itemprop)]');
     }
 
+    public function toArray()
+    {
+        // Somewhat hacky way to convert deep objects
+        return json_decode(json_encode($this->extractMicrodata()), true);
+    }
+
+    public function toObject()
+    {
+        return $this->extractMicrodata();
+    }
+
+    public function toJSON($options = 0, $depth = 512)
+    {
+        return json_encode($this->extractMicrodata(), $options, $depth);
+    }
+
     public function extractMicrodata()
     {
         $result = new \stdClass;
