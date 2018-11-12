@@ -24,7 +24,7 @@ class MicrodataParserTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider data
      */
-    public function testToObject($data)
+    public function testItConvertsMicrodataToObjectFormat($data)
     {
         $parser = $this->getParser($data);
 
@@ -36,7 +36,7 @@ class MicrodataParserTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider data
      */
-    public function testToArray($data)
+    public function testItConvertsMicrodataToArrayFormat($data)
     {
         $parser = $this->getParser($data);
 
@@ -48,7 +48,7 @@ class MicrodataParserTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider data
      */
-    public function testToJSON($data)
+    public function testItConvertsMicrodataToJsonFormat($data)
     {
         $parser = $this->getParser($data);
 
