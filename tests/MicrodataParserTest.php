@@ -11,20 +11,48 @@ class MicrodataParserTest extends \PHPUnit\Framework\TestCase
         libxml_use_internal_errors(true); // Ignore warnings of DOMDocument::loadHTML check
     }
 
-    /**
-     * @dataProvider data
-     */
-    public function testExtractData($data)
-    {
+    protected function getParser($data) {
         $dom = new \DOMDocument;
         $dom->loadHTML($data['source']);
         $dom->documentURI = $data['uri'];
 
-        $parser = new MicrodataParser($dom);
+        return new MicrodataParser($dom);
+    }
 
-        $result = $parser->extractMicrodata();
+    /**
+     * @dataProvider data
+     */
+    public function testToObject($data)
+    {
+        $parser = $this->getParser($data);
 
-        $this->assertEquals($data['result'], $result);
+        $result = $parser->toObject();
+
+        $this->assertEquals(json_decode($data['result']), $result);
+    }
+
+    /**
+     * @dataProvider data
+     */
+    public function testToArray($data)
+    {
+        $parser = $this->getParser($data);
+
+        $result = $parser->toArray();
+
+        $this->assertEquals(json_decode($data['result'], true), $result);
+    }
+
+    /**
+     * @dataProvider data
+     */
+    public function testToJSON($data)
+    {
+        $parser = $this->getParser($data);
+
+        $result = $parser->toJSON();
+
+        $this->assertJsonStringEqualsJsonString($data['result'], $result);
     }
 
     /**
@@ -55,8 +83,8 @@ class MicrodataParserTest extends \PHPUnit\Framework\TestCase
 
         return [
             'uri' => $uri,
-            'source' => $source,
-            'result' => json_decode($result),
+            'source' => $source, // HTML String
+            'result' => $result, // JSON String
         ];
     }
 }

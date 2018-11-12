@@ -30,7 +30,7 @@ class MicrodataParser
         return json_encode($this->extractMicrodata(), $options, $depth);
     }
 
-    public function extractMicrodata()
+    protected function extractMicrodata()
     {
         $result = new \stdClass;
 
