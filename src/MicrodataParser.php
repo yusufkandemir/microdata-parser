@@ -4,14 +4,14 @@ namespace YusufKandemir\MicrodataParser;
 
 class MicrodataParser
 {
-    protected $topLevelItems;
+    protected $dom;
 
-    public function __construct(\DOMDocument $dom)
+    public function __construct(MicrodataDOMDocument $dom)
     {
+        $dom->registerNodeClass(\DOMDocument::class, MicrodataDOMDocument::class);
         $dom->registerNodeClass(\DOMElement::class, MicrodataDOMElement::class);
 
-        $xpath = new \DOMXPath($dom);
-        $this->topLevelItems = $xpath->query('//*[@itemscope and not(@itemprop)]');
+        $this->dom = $dom;
     }
 
     public function toArray()
@@ -36,8 +36,8 @@ class MicrodataParser
 
         $result->items = [];
 
-        foreach ($this->topLevelItems as $topLevelItem) {
-            $result->items[] = $this->getObject($topLevelItem);
+        foreach ($this->dom->getItems() as $item) {
+            $result->items[] = $this->getObject($item);
         }
 
         return $result;

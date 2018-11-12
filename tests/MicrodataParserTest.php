@@ -2,6 +2,7 @@
 
 namespace YusufKandemir\MicrodataParser\Tests;
 
+use YusufKandemir\MicrodataParser\MicrodataDOMDocument;
 use YusufKandemir\MicrodataParser\MicrodataParser;
 
 class MicrodataParserTest extends \PHPUnit\Framework\TestCase
@@ -13,7 +14,7 @@ class MicrodataParserTest extends \PHPUnit\Framework\TestCase
 
     protected function getParser($data)
     {
-        $dom = new \DOMDocument;
+        $dom = new MicrodataDOMDocument;
         $dom->loadHTML($data['source']);
         $dom->documentURI = $data['uri'];
 
