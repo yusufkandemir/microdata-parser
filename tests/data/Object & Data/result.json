@@ -1,0 +1,21 @@
+{
+  "items": [
+    {
+      "type": [ "http://schema.org/Ticket" ],
+      "properties": {
+        "ticketNumber": [ "abc123" ],
+        "ticketToken": [ "http://tickets.example.com/my-tickets/barcode_abc123.pdf" ],
+        "ticketedSeat": [
+          {
+            "type": [ "http://schema.org/Seat" ],
+            "properties": {
+              "seatRow": [ "A" ],
+              "seatNumber": [ "12" ],
+              "seatSection": [ "101" ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

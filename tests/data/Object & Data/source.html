@@ -1,0 +1,18 @@
+<!-- URI: http://tickets.example.com/my-tickets/ -->
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>My Tickets</title>
+</head>
+<body>
+    <h1>My Tickets</h1>
+    <div itemscope itemtype="http://schema.org/Ticket">
+        Ticket Number: <span itemprop="ticketNumber">abc123</span>
+        Ticket Token: <object itemprop="ticketToken" width="50" height="50" data="barcode_abc123.pdf"></object>
+        Ticketed Seat: <div itemprop="ticketedSeat" itemscope itemtype="http://schema.org/Seat">
+            Row-Number: <span itemprop="seatRow">A</span> - <span itemprop="seatNumber">12</span>
+            Location: <data itemprop="seatSection" value="101">Orchestra</data>
+        </div>
+    </div>
+</body>
+</html>
