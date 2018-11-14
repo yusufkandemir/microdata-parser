@@ -53,7 +53,7 @@ $microdata = Microdata::fromHTMLFile('source.html')->toJSON();
       "type": [ "http://schema.org/Product" ],
       "properties": {
         "image": [ "http://shop.example.com/test_product.jpg" ],
-        "url": [ "http://shop.example.com/test_product" ]
+        "url": [ "http://shop.example.com/test_product" ],
         "name": [ "Test Product" ]
       }
     }
