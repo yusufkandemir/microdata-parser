@@ -4,7 +4,10 @@ namespace YusufKandemir\MicrodataParser;
 
 class MicrodataDOMElement extends \DOMElement
 {
-    public function getProperties()
+    /**
+     * @return array
+     */
+    public function getProperties() : array
     {
         $results = [];
         $memory = [$this];
@@ -45,12 +48,18 @@ class MicrodataDOMElement extends \DOMElement
         return array_reverse($results);
     }
 
-    public function hasPropertyNames()
+    /**
+     * @return bool
+     */
+    public function hasPropertyNames() : bool
     {
         return !empty($this->tokenizeAttribute('itemprop'));
     }
 
-    public function getPropertyNames()
+    /**
+     * @return array
+     */
+    public function getPropertyNames() : array
     {
         $tokens = $this->tokenizeAttribute('itemprop');
 
@@ -67,6 +76,9 @@ class MicrodataDOMElement extends \DOMElement
         return array_unique($properties);
     }
 
+    /**
+     * @return $this|string
+     */
     public function getPropertyValue()
     {
         if ($this->hasAttribute('itemscope')) {
@@ -126,11 +138,26 @@ class MicrodataDOMElement extends \DOMElement
         }
     }
 
+    /**
+     * Checks a string to see if its absolute uri or not
+     * Note: As it uses a simple regex to check, it is not that reliable
+     *
+     * @see \preg_match() for return values
+     *
+     * @param string $uri
+     *
+     * @return false|int
+     */
     protected function isAbsoluteUri(string $uri)
     {
         return preg_match("/^\w+:/", trim($uri));
     }
 
+    /**
+     * Filters out TextNodes etc. and returns child ElementNodes as array
+     *
+     * @return array Result array which contains child ElementNodes
+     */
     protected function getChildElementNodes()
     {
         $childNodes = [];
@@ -144,7 +171,14 @@ class MicrodataDOMElement extends \DOMElement
         return $childNodes;
     }
 
-    public function tokenizeAttribute($attributeName)
+    /**
+     * Tokenizes value of given attribute
+     *
+     * @param string $attributeName Name of the attribute
+     *
+     * @return array|array[]|false|string[]
+     */
+    public function tokenizeAttribute(string $attributeName)
     {
         $attribute = [];
 
@@ -155,7 +189,16 @@ class MicrodataDOMElement extends \DOMElement
         return $attribute;
     }
 
-    protected function tokenize($attribute)
+    /**
+     * Splits given attribute value in space characters to array
+     *
+     * @see \preg_split() for possible return values and behaviour
+     *
+     * @param string $attribute
+     *
+     * @return array[]|false|string[]
+     */
+    protected function tokenize(string $attribute)
     {
         return preg_split('/\s+/', trim($attribute));
     }

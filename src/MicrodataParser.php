@@ -4,8 +4,14 @@ namespace YusufKandemir\MicrodataParser;
 
 class MicrodataParser
 {
+    /** @var MicrodataDOMDocument */
     protected $dom;
 
+    /**
+     * MicrodataParser constructor.
+     *
+     * @param MicrodataDOMDocument $dom
+     */
     public function __construct(MicrodataDOMDocument $dom)
     {
         $dom->registerNodeClass(\DOMDocument::class, MicrodataDOMDocument::class);
@@ -14,23 +20,46 @@ class MicrodataParser
         $this->dom = $dom;
     }
 
-    public function toArray()
+    /**
+     * Extracts and converts microdata to associative array
+     *
+     * @return array
+     */
+    public function toArray() : array
     {
         // Somewhat hacky way to convert deep objects
         return json_decode(json_encode($this->extractMicrodata()), true);
     }
 
-    public function toObject()
+    /**
+     * Extracts and converts microdata to object
+     *
+     * @return \stdClass
+     */
+    public function toObject() : \stdClass
     {
         return $this->extractMicrodata();
     }
 
+    /**
+     * Extracts and converts microdata to json using \json_encode()
+     *
+     * @see \json_encode() to description of parameters and return values
+     *
+     * @param int $options
+     * @param int $depth
+     *
+     * @return false|string
+     */
     public function toJSON($options = 0, $depth = 512)
     {
         return json_encode($this->extractMicrodata(), $options, $depth);
     }
 
-    protected function extractMicrodata()
+    /**
+     * @return \stdClass
+     */
+    protected function extractMicrodata() : \stdClass
     {
         $result = new \stdClass;
 
@@ -43,7 +72,13 @@ class MicrodataParser
         return $result;
     }
 
-    protected function getObject(MicrodataDOMElement $item, $memory = [])
+    /**
+     * @param MicrodataDOMElement $item
+     * @param array $memory
+     *
+     * @return \stdClass
+     */
+    protected function getObject(MicrodataDOMElement $item, $memory = []) : \stdClass
     {
         $result = new \stdClass;
 
@@ -85,7 +120,14 @@ class MicrodataParser
         return $result;
     }
 
-    protected function isItem($element)
+    /**
+     * Check if the given parameter is a MicrodataDOMElement and has itemscope attribute
+     *
+     * @param $element
+     *
+     * @return bool
+     */
+    protected function isItem($element) : bool
     {
         return $element instanceof MicrodataDOMElement && $element->hasAttribute('itemscope');
     }
