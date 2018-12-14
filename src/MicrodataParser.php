@@ -73,6 +73,8 @@ class MicrodataParser
     }
 
     /**
+     * @see https://www.w3.org/TR/2018/WD-microdata-20180426/#dfn-get-the-object
+     *
      * @param MicrodataDOMElement $item
      * @param array $memory
      *

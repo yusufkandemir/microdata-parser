@@ -10,6 +10,8 @@ class MicrodataDOMDocument extends \DOMDocument
     /**
      * Get top-level items of the document
      *
+     * @see https://www.w3.org/TR/2018/WD-microdata-20180426/#dfn-top-level-microdata-item
+     *
      * @return \DOMNodeList List of top level items as elements
      */
     public function getItems() : \DOMNodeList

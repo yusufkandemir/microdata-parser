@@ -5,6 +5,8 @@ namespace YusufKandemir\MicrodataParser;
 class MicrodataDOMElement extends \DOMElement
 {
     /**
+     * @see https://www.w3.org/TR/2018/WD-microdata-20180426/#dfn-item-properties for details of algorithm
+     *
      * @return array
      */
     public function getProperties() : array
@@ -57,6 +59,8 @@ class MicrodataDOMElement extends \DOMElement
     }
 
     /**
+     * @see https://www.w3.org/TR/2018/WD-microdata-20180426/#dfn-property-name
+     *
      * @return array
      */
     public function getPropertyNames() : array
@@ -77,6 +81,8 @@ class MicrodataDOMElement extends \DOMElement
     }
 
     /**
+     * @see https://www.w3.org/TR/2018/WD-microdata-20180426/#dfn-property-value for details of algorithm
+     *
      * @return $this|string
      */
     public function getPropertyValue()
@@ -193,6 +199,8 @@ class MicrodataDOMElement extends \DOMElement
      * Splits given attribute value in space characters to array
      *
      * @see \preg_split() for possible return values and behaviour
+     *
+     * @see https://www.w3.org/TR/2018/WD-microdata-20180426/#dfn-split-a-string-on-spaces for definition of tokens
      *
      * @param string $attribute
      *
