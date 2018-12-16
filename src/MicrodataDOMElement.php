@@ -15,17 +15,7 @@ class MicrodataDOMElement extends \DOMElement
         $memory = [$this];
         $pending = $this->getChildElementNodes();
 
-        if ($this->hasAttribute('itemref')) {
-            $tokens = $this->tokenizeAttribute('itemref');
-
-            foreach ($tokens as $token) {
-                $references = $this->ownerDocument->xpath->query('//*[@id="'.$token.'"]');
-
-                if ($first = $references->item(0)) {
-                    $pending[] = $first;
-                }
-            }
-        }
+        $pending = array_merge($pending, $this->getReferenceNodes());
 
         while ($pending) {
             $current = array_pop($pending);
@@ -209,5 +199,31 @@ class MicrodataDOMElement extends \DOMElement
     protected function tokenize(string $attribute)
     {
         return preg_split('/\s+/', trim($attribute));
+    }
+
+    /**
+     * Finds the nodes that this node references through the document
+     *
+     * @see https://www.w3.org/TR/microdata/#dfn-item-properties 4th step
+     *
+     * @return array
+     */
+    protected function getReferenceNodes(): array
+    {
+        $referenceNodes = [];
+
+        if ($this->hasAttribute('itemref')) {
+            $tokens = $this->tokenizeAttribute('itemref');
+
+            foreach ($tokens as $token) {
+                $references = $this->ownerDocument->xpath->query('//*[@id="' . $token . '"]');
+
+                if ($first = $references->item(0)) {
+                    $referenceNodes[] = $first;
+                }
+            }
+        }
+
+        return $referenceNodes;
     }
 }
