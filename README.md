@@ -7,7 +7,7 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-This package aims to implement [W3C Microdata Specification](https://www.w3.org/TR/microdata/).
+This package aims to implement [W3C Microdata to JSON Specification](https://www.w3.org/TR/microdata/#json).
 
 **microdata-parser** extracts microdata from documents.
 
