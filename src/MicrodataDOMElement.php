@@ -94,9 +94,11 @@ class MicrodataDOMElement extends \DOMElement
     /**
      * @see https://www.w3.org/TR/2018/WD-microdata-20180426/#dfn-property-value for details of algorithm
      *
+     * @param callable $absoluteUriHandler
+     *
      * @return $this|string
      */
-    public function getPropertyValue()
+    public function getPropertyValue(callable $absoluteUriHandler = null)
     {
         if ($this->hasAttribute('itemscope')) {
             return $this;
@@ -106,8 +108,6 @@ class MicrodataDOMElement extends \DOMElement
             return $this->getAttribute('content');
         }
 
-        $base = $this->ownerDocument->documentURI;
-
         $value = '';
 
         if (\array_key_exists($this->tagName, self::$tagNameLookup)) {
@@ -115,7 +115,7 @@ class MicrodataDOMElement extends \DOMElement
             $value = $this->getAttribute($attribute);
 
             if (!empty($value) && \in_array($attribute, self::$absoluteAttributes) && !$this->isAbsoluteUri($value)) {
-                $value = $base . $value;
+                $value = $absoluteUriHandler($value, $this->ownerDocument->documentURI);
             }
         }
 

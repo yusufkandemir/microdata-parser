@@ -8,15 +8,30 @@ class MicrodataParser
     protected $dom;
 
     /**
+     * Handler will be called with $value(non-absolute uri string) and $base(base uri) parameters
+     *
+     * Should return a string value
+     *
+     * @var callable
+     */
+    private $absoluteUriHandler;
+
+    /**
      * MicrodataParser constructor.
      *
      * @param MicrodataDOMDocument $dom
+     * @param callable $absoluteUriHandler Can be set later with MicrodataParser::setAbsoluteUriHandler()
+     *
+     * @see MicrodataParser::$absoluteUriHandler
      */
-    public function __construct(MicrodataDOMDocument $dom)
+    public function __construct(MicrodataDOMDocument $dom, callable $absoluteUriHandler = null)
     {
         $dom->registerNodeClass(\DOMElement::class, MicrodataDOMElement::class);
 
         $this->dom = $dom;
+        $this->absoluteUriHandler = $absoluteUriHandler ?: function ($value, $base) {
+            return $base . $value;
+        };
     }
 
     /**
@@ -96,7 +111,7 @@ class MicrodataParser
         $properties = new \stdClass;
 
         foreach ($item->getProperties() as $element) {
-            $value = $element->getPropertyValue();
+            $value = $element->getPropertyValue($this->absoluteUriHandler);
 
             if ($this->isItem($value)) {
                 foreach ($memory as $memory_item) {
@@ -119,6 +134,16 @@ class MicrodataParser
         $result->properties = $properties;
 
         return $result;
+    }
+
+    /**
+     * Set absolute uri handler
+     *
+     * @param callable $handler
+     */
+    public function setAbsoluteUriHandler(callable $handler)
+    {
+        $this->absoluteUriHandler = $handler;
     }
 
     /**
