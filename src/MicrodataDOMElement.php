@@ -4,6 +4,27 @@ namespace YusufKandemir\MicrodataParser;
 
 class MicrodataDOMElement extends \DOMElement
 {
+    /** @var array "tag name" to "attribute name" mapping */
+    private static $tagNameLookup = [
+        'audio' => 'src',
+        'embed' => 'src',
+        'iframe' => 'src',
+        'img' => 'src',
+        'source' => 'src',
+        'track' => 'src',
+        'video' => 'src',
+        'a' => 'href',
+        'area' => 'href',
+        'link' => 'href',
+        'object' => 'data',
+        'data' => 'value',
+        'meter' => 'value',
+        'time' => 'datetime',
+    ];
+
+    /** @var array Attributes that have absolute values */
+    private static $absoluteAttributes = ['src', 'href', 'data',];
+
     /**
      * @see https://www.w3.org/TR/2018/WD-microdata-20180426/#dfn-item-properties for details of algorithm
      *
@@ -87,51 +108,18 @@ class MicrodataDOMElement extends \DOMElement
 
         $base = $this->ownerDocument->documentURI;
 
-        switch ($this->tagName) {
-            case 'audio':
-            case 'embed':
-            case 'iframe':
-            case 'img':
-            case 'source':
-            case 'track':
-            case 'video':
-                if ($this->hasAttribute('src')) {
-                    $result = $this->getAttribute('src');
+        $value = '';
 
-                    // @todo check against protocol relative urls like "//example.com/test.jpg"
-                    return $this->isAbsoluteUri($result) ? $result : $base.$result;
-                }
-                // No break
-            case 'a':
-            case 'area':
-            case 'link':
-                if ($this->hasAttribute('href')) {
-                    $result = $this->getAttribute('href');
+        if (\array_key_exists($this->tagName, self::$tagNameLookup)) {
+            $attribute = self::$tagNameLookup[$this->tagName];
+            $value = $this->getAttribute($attribute);
 
-                    return $this->isAbsoluteUri($result) ? $result : $base.$result;
-                }
-                // No break
-            case 'object':
-                if ($this->hasAttribute('data')) {
-                    $result = $this->getAttribute('data');
-
-                    return $this->isAbsoluteUri($result) ? $result : $base.$result;
-                }
-                // No break
-            case 'data':
-            case 'meter':
-                if ($this->hasAttribute('value')) {
-                    return $this->getAttribute('value');
-                }
-                // No break
-            case 'time':
-                if ($this->hasAttribute('datetime')) {
-                    return $this->getAttribute('datetime');
-                }
-                // No break
-            default:
-                return $this->textContent;
+            if (!empty($value) && \in_array($attribute, self::$absoluteAttributes) && !$this->isAbsoluteUri($value)) {
+                $value = $base . $value;
+            }
         }
+
+        return $value ?: $this->textContent;
     }
 
     /**
