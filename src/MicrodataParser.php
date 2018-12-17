@@ -14,7 +14,6 @@ class MicrodataParser
      */
     public function __construct(MicrodataDOMDocument $dom)
     {
-        $dom->registerNodeClass(\DOMDocument::class, MicrodataDOMDocument::class);
         $dom->registerNodeClass(\DOMElement::class, MicrodataDOMElement::class);
 
         $this->dom = $dom;
