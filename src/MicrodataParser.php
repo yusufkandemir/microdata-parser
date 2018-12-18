@@ -12,7 +12,7 @@ class MicrodataParser
      *
      * Should return a string value
      *
-     * @var callable
+     * @var callable|null
      */
     private $absoluteUriHandler;
 
@@ -20,7 +20,7 @@ class MicrodataParser
      * MicrodataParser constructor.
      *
      * @param MicrodataDOMDocument $dom
-     * @param callable $absoluteUriHandler Can be set later with MicrodataParser::setAbsoluteUriHandler()
+     * @param callable|null $absoluteUriHandler Can be set later with MicrodataParser::setAbsoluteUriHandler()
      *
      * @see MicrodataParser::$absoluteUriHandler
      */
