@@ -57,6 +57,29 @@ class MicrodataParserTest extends \PHPUnit\Framework\TestCase
         $this->assertJsonStringEqualsJsonString($data['result'], $result);
     }
 
+    public function testItUsesAbsoluteUriHandlerWhenHandlingAbsoluteUris()
+    {
+        $baseUri = 'https://absolute.uri.handler/';
+        $data = $this->data()['Itemref & src based tags'][0];
+        $parser = $this->getParser($data);
+
+        $resultBefore = $parser->toObject();
+        $resultBeforeUri = $resultBefore->items[0]->properties->work[0];
+
+        $this->assertNotContains($baseUri, $resultBeforeUri);
+
+        $parser->setAbsoluteUriHandler(
+            function (string $value, string $base) use ($baseUri) : string {
+                return $baseUri . $value;
+            }
+        );
+
+        $resultAfter = $parser->toObject();
+        $resultAfterUri = $resultAfter->items[0]->properties->work[0];
+
+        $this->assertContains($baseUri, $resultAfterUri);
+    }
+
     /**
      * @todo Provide more test data
      */
