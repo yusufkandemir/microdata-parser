@@ -96,6 +96,9 @@ class MicrodataParserTest extends \PHPUnit\Framework\TestCase
             'Object & Data tags' => [
                 $this->getTestData('Object & Data', 'source.html', 'result.json')
             ],
+            'Itemid & Content attributes' => [
+                $this->getTestData('Itemid & Content', 'source.html', 'result.json')
+            ],
         ];
     }
 

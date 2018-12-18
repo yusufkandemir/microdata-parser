@@ -1,0 +1,14 @@
+{
+  "items": [
+    {
+      "id": "urn:isbn:0-330-34032-8",
+      "type": [ "https://vocab.example.net/book" ],
+      "properties": {
+        "title": [ "The Reality Dysfunction" ],
+        "author": [ "Peter F. Hamilton" ],
+        "date": [ "1996-01-26" ],
+        "publisher": [ "Macmillan Publishers Limited" ]
+      }
+    }
+  ]
+}
