@@ -2,74 +2,73 @@
 
 namespace YusufKandemir\MicrodataParser\Tests;
 
-use YusufKandemir\MicrodataParser\MicrodataDOMDocument;
 use YusufKandemir\MicrodataParser\MicrodataParser;
+use YusufKandemir\MicrodataParser\MicrodataDocumentParser;
 
 class MicrodataParserTest extends DataDrivenTestCase
 {
-    protected function getParser($data)
+    /**
+     * @param array $data
+     * @dataProvider data
+     */
+    public function testItParsesHtml(array $data)
     {
-        $dom = new MicrodataDOMDocument;
+        $parser = new MicrodataParser();
+        $result = $parser->parseHTML($data['source'], $data['uri']);
+
+        $expected = \json_decode($data['result']);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @param array $data
+     * @dataProvider data
+     */
+    public function testItParsesHtmlFile(array $data)
+    {
+        $parser = new MicrodataParser();
+        $result = $parser->parseHTMLFile($data['path'], $data['uri']);
+
+        $expected = \json_decode($data['result']);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @param array $data
+     * @dataProvider data
+     */
+    public function testItParsesDomDocument(array $data)
+    {
+        $dom = new \DOMDocument;
         $dom->loadHTML($data['source']);
         $dom->documentURI = $data['uri'];
 
-        return new MicrodataParser($dom);
-    }
+        $parser = new MicrodataParser();
+        $result = $parser->parseDOMDocument($dom);
 
-    /**
-     * @dataProvider data
-     */
-    public function testItConvertsMicrodataToObjectFormat($data)
-    {
-        $parser = $this->getParser($data);
+        $expected = \json_decode($data['result']);
 
-        $result = $parser->toObject();
-
-        $this->assertEquals(json_decode($data['result']), $result);
-    }
-
-    /**
-     * @dataProvider data
-     */
-    public function testItConvertsMicrodataToArrayFormat($data)
-    {
-        $parser = $this->getParser($data);
-
-        $result = $parser->toArray();
-
-        $this->assertEquals(json_decode($data['result'], true), $result);
-    }
-
-    /**
-     * @dataProvider data
-     */
-    public function testItConvertsMicrodataToJsonFormat($data)
-    {
-        $parser = $this->getParser($data);
-
-        $result = $parser->toJSON();
-
-        $this->assertJsonStringEqualsJsonString($data['result'], $result);
+        $this->assertEquals($expected, $result);
     }
 
     public function testItUsesAbsoluteUriHandlerWhenHandlingAbsoluteUris()
     {
         $baseUri = 'https://absolute.uri.handler/';
         $data = $this->data()['Itemref & src based tags'][0];
-        $parser = $this->getParser($data);
+        $parser = new MicrodataParser();
 
-        $resultBefore = $parser->toObject();
+        $resultBefore = $parser->parseHTML($data['source'], $data['uri']);
         $resultBeforeUri = $resultBefore->items[0]->properties->work[0];
 
         $this->assertNotContains($baseUri, $resultBeforeUri);
 
-        $parser->setAbsoluteUriHandler(
-            function (string $value, string $base) use ($baseUri) : string {
-                return $baseUri . $value;
-            }
-        );
+        $absoluteUriHandler = function (string $value, string $base) use ($baseUri) : string {
+            return $baseUri . $value;
+        };
 
-        $resultAfter = $parser->toObject();
+        $resultAfter = $parser->parseHTML($data['source'], $data['uri'], $absoluteUriHandler);
         $resultAfterUri = $resultAfter->items[0]->properties->work[0];
 
         $this->assertContains($baseUri, $resultAfterUri);
