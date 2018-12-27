@@ -68,7 +68,9 @@ class MicrodataParserTest extends DataDrivenTestCase
             return $baseUri . $value;
         };
 
-        $resultAfter = $parser->parseHTML($data['source'], $data['uri'], $absoluteUriHandler);
+        $resultAfter = $parser
+            ->setAbsoluteUriHandler($absoluteUriHandler)
+            ->parseHTML($data['source'], $data['uri']);
         $resultAfterUri = $resultAfter->items[0]->properties->work[0];
 
         $this->assertContains($baseUri, $resultAfterUri);
