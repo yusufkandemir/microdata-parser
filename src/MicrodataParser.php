@@ -2,10 +2,13 @@
 
 namespace YusufKandemir\MicrodataParser;
 
+use DOMElement;
+use stdClass;
+
 class MicrodataParser
 {
     /** @var MicrodataDOMDocument */
-    protected $dom;
+    protected MicrodataDOMDocument $dom;
 
     /**
      * Handler will be called with $value(non-absolute uri string) and $base(base uri) parameters
@@ -26,7 +29,7 @@ class MicrodataParser
      */
     public function __construct(MicrodataDOMDocument $dom, callable $absoluteUriHandler = null)
     {
-        $dom->registerNodeClass(\DOMElement::class, MicrodataDOMElement::class);
+        $dom->registerNodeClass(DOMElement::class, MicrodataDOMElement::class);
 
         $this->dom = $dom;
         $this->absoluteUriHandler = $absoluteUriHandler ?: function ($value, $base) {
@@ -48,9 +51,9 @@ class MicrodataParser
     /**
      * Extracts and converts microdata to object
      *
-     * @return \stdClass
+     * @return stdClass
      */
-    public function toObject() : \stdClass
+    public function toObject() : stdClass
     {
         return $this->extractMicrodata();
     }
@@ -58,24 +61,24 @@ class MicrodataParser
     /**
      * Extracts and converts microdata to json using \json_encode()
      *
-     * @see \json_encode() to description of parameters and return values
-     *
      * @param int $options
      * @param int $depth
      *
      * @return false|string
+     *@see \json_encode() to description of parameters and return values
+     *
      */
-    public function toJSON($options = 0, $depth = 512)
+    public function toJSON(int $options = 0, int $depth = 512): bool|string
     {
         return json_encode($this->extractMicrodata(), $options, $depth);
     }
 
     /**
-     * @return \stdClass
+     * @return stdClass
      */
-    protected function extractMicrodata() : \stdClass
+    protected function extractMicrodata() : stdClass
     {
-        $result = new \stdClass;
+        $result = new stdClass;
 
         $result->items = [];
 
@@ -92,11 +95,11 @@ class MicrodataParser
      * @param MicrodataDOMElement $item
      * @param array $memory
      *
-     * @return \stdClass
+     * @return stdClass
      */
-    protected function getObject(MicrodataDOMElement $item, $memory = []) : \stdClass
+    protected function getObject(MicrodataDOMElement $item, array $memory = []) : stdClass
     {
-        $result = new \stdClass;
+        $result = new stdClass;
 
         $memory[] = $item;
 
@@ -108,7 +111,7 @@ class MicrodataParser
         }
         // @todo Check if item ids are valid absolute urls or like isbn:xxx
 
-        $properties = new \stdClass;
+        $properties = new stdClass;
 
         foreach ($item->getProperties() as $element) {
             $value = $element->getPropertyValue($this->absoluteUriHandler);

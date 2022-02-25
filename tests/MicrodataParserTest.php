@@ -2,6 +2,7 @@
 
 namespace YusufKandemir\MicrodataParser\Tests;
 
+use JetBrains\PhpStorm\ArrayShape;
 use YusufKandemir\MicrodataParser\MicrodataDOMDocument;
 use YusufKandemir\MicrodataParser\MicrodataParser;
 
@@ -12,7 +13,7 @@ class MicrodataParserTest extends \PHPUnit\Framework\TestCase
         libxml_use_internal_errors(true); // Ignore warnings of DOMDocument::loadHTML check
     }
 
-    protected function getParser($data)
+    protected function getParser($data): MicrodataParser
     {
         $dom = new MicrodataDOMDocument;
         $dom->loadHTML($data['source']);
@@ -83,7 +84,12 @@ class MicrodataParserTest extends \PHPUnit\Framework\TestCase
     /**
      * @todo Provide more test data
      */
-    public function data()
+    #[ArrayShape([
+        'W3C Example' => "array[]",
+        'Itemref & src based tags' => "array[]",
+        'Object & Data tags' => "array[]",
+        'Itemid & Content attributes' => "array[]"])]
+    public function data(): array
     {
         return [
             // https://www.w3.org/TR/microdata/#ex-jsonconv
@@ -102,7 +108,12 @@ class MicrodataParserTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    private function getTestData($folderName, $sourceName, $resultName)
+    #[ArrayShape([
+        'uri' => "mixed|string",
+        'source' => "false|string",
+        'result' => "false|string"
+    ])]
+    private function getTestData($folderName, $sourceName, $resultName): array
     {
         $folderPath = __DIR__.'/data/'.$folderName.'/';
 
