@@ -3,12 +3,16 @@
 namespace YusufKandemir\MicrodataParser\Tests;
 
 use JetBrains\PhpStorm\ArrayShape;
+use PHPUnit\Framework\TestCase;
 use YusufKandemir\MicrodataParser\MicrodataDOMDocument;
 use YusufKandemir\MicrodataParser\MicrodataParser;
 
-class MicrodataParserTest extends \PHPUnit\Framework\TestCase
+class MicrodataParserTest extends TestCase
 {
-    protected function setUp()
+    /**
+     * @return void
+     */
+    protected function setUp() :void
     {
         libxml_use_internal_errors(true); // Ignore warnings of DOMDocument::loadHTML check
     }
