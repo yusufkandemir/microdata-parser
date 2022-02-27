@@ -163,7 +163,7 @@ class MicrodataDOMElement extends \DOMElement
      *
      * @param string $attributeName Name of the attribute
      *
-     * @return array|bool
+     * @return array|false
      */
     public function tokenizeAttribute(string $attributeName): array|bool
     {
@@ -181,7 +181,7 @@ class MicrodataDOMElement extends \DOMElement
      *
      * @param string $attribute
      *
-     * @return array|bool
+     * @return array|false
      * @see \preg_split() for possible return values and behaviour
      *
      * @see https://www.w3.org/TR/2018/WD-microdata-20180426/#dfn-split-a-string-on-spaces for definition of tokens

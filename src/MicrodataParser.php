@@ -7,7 +7,6 @@ use stdClass;
 
 class MicrodataParser
 {
-    /** @var MicrodataDOMDocument */
     protected MicrodataDOMDocument $dom;
 
     /**
@@ -65,7 +64,7 @@ class MicrodataParser
      * @param int $depth
      *
      * @return false|string
-     *@see \json_encode() to description of parameters and return values
+     * @see \json_encode() to description of parameters and return values
      *
      */
     public function toJSON(int $options = 0, int $depth = 512): bool|string

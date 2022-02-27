@@ -3,11 +3,10 @@
 namespace YusufKandemir\MicrodataParser\Tests;
 
 use DOMDocument;
-use PHPUnit\Framework\TestCase;
 use YusufKandemir\MicrodataParser\Microdata;
 use YusufKandemir\MicrodataParser\MicrodataParser;
 
-class MicrodataTest extends TestCase
+class MicrodataTest extends \PHPUnit\Framework\TestCase
 {
     protected string $htmlFileName = __DIR__ . '/data/W3C/source.html';
 

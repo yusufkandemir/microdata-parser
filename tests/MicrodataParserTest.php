@@ -9,9 +9,6 @@ use YusufKandemir\MicrodataParser\MicrodataParser;
 
 class MicrodataParserTest extends TestCase
 {
-    /**
-     * @return void
-     */
     protected function setUp() :void
     {
         libxml_use_internal_errors(true); // Ignore warnings of DOMDocument::loadHTML check
@@ -69,7 +66,7 @@ class MicrodataParserTest extends TestCase
         $parser = $this->getParser($data);
 
         $resultBefore = $parser->toObject();
-        $resultBeforeUri = $resultBefore->items[0]->properties->work[0];
+        $resultBeforeUri = $resultBefore->items[0]->properties->work;
 
         $this->assertNotContains($baseUri, $resultBeforeUri);
 
@@ -87,12 +84,13 @@ class MicrodataParserTest extends TestCase
 
     /**
      * @todo Provide more test data
+     * @return array[
+     * 'W3C Example' => "array[]",
+     * 'Itemref & src based tags' => "array[]",
+     * 'Object & Data tags' => "array[]",
+     * 'Itemid & Content attributes' => "array[]"
+     * ]
      */
-    #[ArrayShape([
-        'W3C Example' => "array[]",
-        'Itemref & src based tags' => "array[]",
-        'Object & Data tags' => "array[]",
-        'Itemid & Content attributes' => "array[]"])]
     public function data(): array
     {
         return [
