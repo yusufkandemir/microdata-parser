@@ -66,9 +66,9 @@ class MicrodataParserTest extends TestCase
         $parser = $this->getParser($data);
 
         $resultBefore = $parser->toObject();
-        $resultBeforeUri = $resultBefore->items[0]->properties->work;
+        $resultBeforeUri = $resultBefore->items[0]->properties->work[0];
 
-        $this->assertNotContains($baseUri, $resultBeforeUri);
+        $this->assertStringNotContainsString($baseUri, $resultBeforeUri);
 
         $parser->setAbsoluteUriHandler(
             function (string $value, string $base) use ($baseUri) : string {
@@ -79,7 +79,7 @@ class MicrodataParserTest extends TestCase
         $resultAfter = $parser->toObject();
         $resultAfterUri = $resultAfter->items[0]->properties->work[0];
 
-        $this->assertContains($baseUri, $resultAfterUri);
+        $this->assertStringContainsString($baseUri, $resultAfterUri);
     }
 
     /**
