@@ -2,10 +2,13 @@
 
 namespace YusufKandemir\MicrodataParser;
 
+use function array_key_exists;
+use function in_array;
+
 class MicrodataDOMElement extends \DOMElement
 {
     /** @var array "tag name" to "attribute name" mapping */
-    private static $tagNameLookup = [
+    private static array $tagNameLookup = [
         'audio' => 'src',
         'embed' => 'src',
         'iframe' => 'src',
@@ -23,7 +26,7 @@ class MicrodataDOMElement extends \DOMElement
     ];
 
     /** @var array Attributes that have absolute values */
-    private static $absoluteAttributes = ['src', 'href', 'data',];
+    private static array $absoluteAttributes = ['src', 'href', 'data',];
 
     /**
      * @see https://www.w3.org/TR/2018/WD-microdata-20180426/#dfn-item-properties for details of algorithm
@@ -94,11 +97,11 @@ class MicrodataDOMElement extends \DOMElement
     /**
      * @see https://www.w3.org/TR/2018/WD-microdata-20180426/#dfn-property-value for details of algorithm
      *
-     * @param callable $absoluteUriHandler
+     * @param callable|null $absoluteUriHandler
      *
      * @return $this|string
      */
-    public function getPropertyValue(callable $absoluteUriHandler = null)
+    public function getPropertyValue(callable $absoluteUriHandler = null): string|static
     {
         if ($this->hasAttribute('itemscope')) {
             return $this;
@@ -110,11 +113,11 @@ class MicrodataDOMElement extends \DOMElement
 
         $value = '';
 
-        if (\array_key_exists($this->tagName, self::$tagNameLookup)) {
+        if (array_key_exists($this->tagName, self::$tagNameLookup)) {
             $attribute = self::$tagNameLookup[$this->tagName];
             $value = $this->getAttribute($attribute);
 
-            if (!empty($value) && \in_array($attribute, self::$absoluteAttributes) && !$this->isAbsoluteUri($value)) {
+            if (!empty($value) && in_array($attribute, self::$absoluteAttributes) && !$this->isAbsoluteUri($value)) {
                 $value = $absoluteUriHandler($value, $this->ownerDocument->documentURI);
             }
         }
@@ -132,7 +135,7 @@ class MicrodataDOMElement extends \DOMElement
      *
      * @return false|int
      */
-    protected function isAbsoluteUri(string $uri)
+    protected function isAbsoluteUri(string $uri): bool|int
     {
         return preg_match("/^\w+:/", trim($uri));
     }
@@ -142,7 +145,7 @@ class MicrodataDOMElement extends \DOMElement
      *
      * @return array Result array which contains child ElementNodes
      */
-    protected function getChildElementNodes()
+    protected function getChildElementNodes(): array
     {
         $childNodes = [];
 
@@ -160,9 +163,9 @@ class MicrodataDOMElement extends \DOMElement
      *
      * @param string $attributeName Name of the attribute
      *
-     * @return array|array[]|false|string[]
+     * @return array|false
      */
-    public function tokenizeAttribute(string $attributeName)
+    public function tokenizeAttribute(string $attributeName): array|bool
     {
         $attribute = [];
 
@@ -176,15 +179,15 @@ class MicrodataDOMElement extends \DOMElement
     /**
      * Splits given attribute value in space characters to array
      *
+     * @param string $attribute
+     *
+     * @return array|false
      * @see \preg_split() for possible return values and behaviour
      *
      * @see https://www.w3.org/TR/2018/WD-microdata-20180426/#dfn-split-a-string-on-spaces for definition of tokens
      *
-     * @param string $attribute
-     *
-     * @return array[]|false|string[]
      */
-    protected function tokenize(string $attribute)
+    protected function tokenize(string $attribute): array|bool
     {
         return preg_split('/\s+/', trim($attribute));
     }

@@ -2,12 +2,13 @@
 
 namespace YusufKandemir\MicrodataParser\Tests;
 
+use DOMDocument;
 use YusufKandemir\MicrodataParser\Microdata;
 use YusufKandemir\MicrodataParser\MicrodataParser;
 
 class MicrodataTest extends \PHPUnit\Framework\TestCase
 {
-    protected $htmlFileName = __DIR__ . '/data/W3C/source.html';
+    protected string $htmlFileName = __DIR__ . '/data/W3C/source.html';
 
     public function testItCreatesMicrodataParserFromHtml()
     {
@@ -26,7 +27,7 @@ class MicrodataTest extends \PHPUnit\Framework\TestCase
 
     public function testItCreatesMicrodataParserFromDomDocument()
     {
-        $dom = new \DOMDocument;
+        $dom = new DOMDocument;
         $dom->loadHTMLFile($this->htmlFileName);
 
         $microdata = Microdata::fromDOMDocument($dom);

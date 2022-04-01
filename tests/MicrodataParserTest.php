@@ -2,17 +2,18 @@
 
 namespace YusufKandemir\MicrodataParser\Tests;
 
+use PHPUnit\Framework\TestCase;
 use YusufKandemir\MicrodataParser\MicrodataDOMDocument;
 use YusufKandemir\MicrodataParser\MicrodataParser;
 
-class MicrodataParserTest extends \PHPUnit\Framework\TestCase
+class MicrodataParserTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp() :void
     {
         libxml_use_internal_errors(true); // Ignore warnings of DOMDocument::loadHTML check
     }
 
-    protected function getParser($data)
+    protected function getParser($data): MicrodataParser
     {
         $dom = new MicrodataDOMDocument;
         $dom->loadHTML($data['source']);
@@ -66,7 +67,7 @@ class MicrodataParserTest extends \PHPUnit\Framework\TestCase
         $resultBefore = $parser->toObject();
         $resultBeforeUri = $resultBefore->items[0]->properties->work[0];
 
-        $this->assertNotContains($baseUri, $resultBeforeUri);
+        $this->assertStringNotContainsString($baseUri, $resultBeforeUri);
 
         $parser->setAbsoluteUriHandler(
             function (string $value, string $base) use ($baseUri) : string {
@@ -77,13 +78,19 @@ class MicrodataParserTest extends \PHPUnit\Framework\TestCase
         $resultAfter = $parser->toObject();
         $resultAfterUri = $resultAfter->items[0]->properties->work[0];
 
-        $this->assertContains($baseUri, $resultAfterUri);
+        $this->assertStringContainsString($baseUri, $resultAfterUri);
     }
 
     /**
      * @todo Provide more test data
+     * @return array{
+     *  'W3C Example': array{uri: string, source: string, result: string}[],
+     *  'Itemref & src based tags': array{uri: string, source: string, result: string}[],
+     *  'Object & Data tags': array{uri: string, source: string, result: string}[],
+     *  'Itemid & Content attributes': array{uri: string, source: string, result: string}[]
+     * }
      */
-    public function data()
+    public function data(): array
     {
         return [
             // https://www.w3.org/TR/microdata/#ex-jsonconv
@@ -102,12 +109,19 @@ class MicrodataParserTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    private function getTestData($folderName, $sourceName, $resultName)
+    /**
+     * @return array{uri: string, source: string, result: string}
+     */
+    private function getTestData($folderName, $sourceName, $resultName): array
     {
         $folderPath = __DIR__.'/data/'.$folderName.'/';
 
         $source = file_get_contents($folderPath . $sourceName);
         $result = file_get_contents($folderPath . $resultName);
+
+        if ($source === false || $result === false) {
+            throw new \Exception('Could not load test data');
+        }
 
         $uri = '';
         // Set $uri if URI specified in test data
