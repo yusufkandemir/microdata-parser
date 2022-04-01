@@ -3,11 +3,11 @@
     "type": "library",
     "description": "Parse microdata from HTML documents with ease. PHP Implementation of W3C Microdata to JSON Specification.",
     "keywords": [
-        "yusufkandemir",
-        "microdata-parser",
-		"Microdata",
-		"HTML Microdata",
-		"PHP Microdata Parser"
+        "microdata",
+        "parser",
+        "json",
+        "w3c",
+        "whatwg"
     ],
     "homepage": "https://github.com/yusufkandemir/microdata-parser",
     "license": "MIT",
@@ -15,17 +15,21 @@
         {
             "name": "Yusuf Kandemir",
             "email": "yusuf.kandemir@outlook.com.tr",
-            "homepage": "https://github.com/yusufkandemir",
-            "role": "Developer"
+            "homepage": "https://github.com/yusufkandemir"
         }
     ],
+    "scripts": {
+        "test": "phpunit",
+        "lint": "phpcs src tests",
+        "lint:fix": "phpcbf src tests"
+    },
     "require": {
-        "php" : "~8.1",
+        "php": "^8.1",
         "ext-dom": "*",
         "ext-libxml": "*"
     },
     "require-dev": {
-        "phpunit/phpunit" : ">=5.4.3",
+        "phpunit/phpunit": ">=5.4.3",
         "squizlabs/php_codesniffer": "^3.0"
     },
     "suggest": {
@@ -40,11 +44,6 @@
         "psr-4": {
             "YusufKandemir\\MicrodataParser\\Tests\\": "tests"
         }
-    },
-    "scripts": {
-        "test": "phpunit",
-        "check-style": "phpcs src tests",
-        "fix-style": "phpcbf src tests"
     },
     "extra": {
         "branch-alias": {
