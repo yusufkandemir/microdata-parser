@@ -61,10 +61,6 @@ $microdata = Microdata::fromHTMLFile('source.html')->toJSON();
 }
 ```
 
-## Change log
-
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
-
 ## Testing
 
 ``` bash
