@@ -2,7 +2,6 @@
 
 namespace YusufKandemir\MicrodataParser\Tests;
 
-use JetBrains\PhpStorm\ArrayShape;
 use PHPUnit\Framework\TestCase;
 use YusufKandemir\MicrodataParser\MicrodataDOMDocument;
 use YusufKandemir\MicrodataParser\MicrodataParser;
@@ -84,12 +83,12 @@ class MicrodataParserTest extends TestCase
 
     /**
      * @todo Provide more test data
-     * @return array[
-     * 'W3C Example' => "array[]",
-     * 'Itemref & src based tags' => "array[]",
-     * 'Object & Data tags' => "array[]",
-     * 'Itemid & Content attributes' => "array[]"
-     * ]
+     * @return array{
+     *  'W3C Example': array{uri: string, source: string, result: string}[],
+     *  'Itemref & src based tags': array{uri: string, source: string, result: string}[],
+     *  'Object & Data tags': array{uri: string, source: string, result: string}[],
+     *  'Itemid & Content attributes': array{uri: string, source: string, result: string}[]
+     * }
      */
     public function data(): array
     {
@@ -110,17 +109,19 @@ class MicrodataParserTest extends TestCase
         ];
     }
 
-    #[ArrayShape([
-        'uri' => "mixed|string",
-        'source' => "false|string",
-        'result' => "false|string"
-    ])]
+    /**
+     * @return array{uri: string, source: string, result: string}
+     */
     private function getTestData($folderName, $sourceName, $resultName): array
     {
         $folderPath = __DIR__.'/data/'.$folderName.'/';
 
         $source = file_get_contents($folderPath . $sourceName);
         $result = file_get_contents($folderPath . $resultName);
+
+        if ($source === false || $result === false) {
+            throw new \Exception('Could not load test data');
+        }
 
         $uri = '';
         // Set $uri if URI specified in test data
