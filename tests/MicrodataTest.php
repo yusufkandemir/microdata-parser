@@ -27,7 +27,7 @@ class MicrodataTest extends \PHPUnit\Framework\TestCase
 
     public function testItCreatesMicrodataParserFromDomDocument()
     {
-        $dom = new DOMDocument;
+        $dom = new DOMDocument();
         $dom->loadHTMLFile($this->htmlFileName);
 
         $microdata = Microdata::fromDOMDocument($dom);

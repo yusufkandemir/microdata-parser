@@ -8,14 +8,14 @@ use YusufKandemir\MicrodataParser\MicrodataParser;
 
 class MicrodataParserTest extends TestCase
 {
-    protected function setUp() :void
+    protected function setUp(): void
     {
         libxml_use_internal_errors(true); // Ignore warnings of DOMDocument::loadHTML check
     }
 
     protected function getParser($data): MicrodataParser
     {
-        $dom = new MicrodataDOMDocument;
+        $dom = new MicrodataDOMDocument();
         $dom->loadHTML($data['source']);
         $dom->documentURI = $data['uri'];
 
@@ -70,7 +70,7 @@ class MicrodataParserTest extends TestCase
         $this->assertStringNotContainsString($baseUri, $resultBeforeUri);
 
         $parser->setAbsoluteUriHandler(
-            function (string $value, string $base) use ($baseUri) : string {
+            function (string $value, string $base) use ($baseUri): string {
                 return $baseUri . $value;
             }
         );
@@ -83,6 +83,7 @@ class MicrodataParserTest extends TestCase
 
     /**
      * @todo Provide more test data
+     *
      * @return array{
      *  'W3C Example': array{uri: string, source: string, result: string}[],
      *  'Itemref & src based tags': array{uri: string, source: string, result: string}[],
@@ -95,16 +96,16 @@ class MicrodataParserTest extends TestCase
         return [
             // https://www.w3.org/TR/microdata/#ex-jsonconv
             'W3C Example' => [
-                $this->getTestData('W3C', 'source.html', 'result.json')
+                $this->getTestData('W3C', 'source.html', 'result.json'),
             ],
             'Itemref & src based tags' => [
-                $this->getTestData('Itemref', 'source.html', 'result.json')
+                $this->getTestData('Itemref', 'source.html', 'result.json'),
             ],
             'Object & Data tags' => [
-                $this->getTestData('Object & Data', 'source.html', 'result.json')
+                $this->getTestData('Object & Data', 'source.html', 'result.json'),
             ],
             'Itemid & Content attributes' => [
-                $this->getTestData('Itemid & Content', 'source.html', 'result.json')
+                $this->getTestData('Itemid & Content', 'source.html', 'result.json'),
             ],
         ];
     }
@@ -114,7 +115,7 @@ class MicrodataParserTest extends TestCase
      */
     private function getTestData($folderName, $sourceName, $resultName): array
     {
-        $folderPath = __DIR__.'/data/'.$folderName.'/';
+        $folderPath = __DIR__ . '/data/' . $folderName . '/';
 
         $source = file_get_contents($folderPath . $sourceName);
         $result = file_get_contents($folderPath . $resultName);
