@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "editorconfig.editorconfig",
+        "wayou.vscode-todo-highlight",
+
+        "bmewburn.vscode-intelephense-client",
+        "junstyle.php-cs-fixer"
+    ]
+}
