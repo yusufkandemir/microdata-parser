@@ -2,7 +2,7 @@
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
-[![Build Status][ico-travis]][link-travis]
+[![Tests][ico-tests]][link-tests]
 [![Coverage Status][ico-scrutinizer]][link-scrutinizer]
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
@@ -82,13 +82,13 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 [ico-version]: https://img.shields.io/packagist/v/yusufkandemir/microdata-parser.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/yusufkandemir/microdata-parser/master.svg?style=flat-square
+[ico-tests]: https://img.shields.io/github/workflow/status/yusufkandemir/microdata-parser/run-tests?style=flat-square&label=Tests
 [ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/yusufkandemir/microdata-parser.svg?style=flat-square
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/yusufkandemir/microdata-parser.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/yusufkandemir/microdata-parser.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/yusufkandemir/microdata-parser
-[link-travis]: https://travis-ci.org/yusufkandemir/microdata-parser
+[link-tests]: https://github.com/yusufkandemir/microdata-parser/actions/workflows/run-tests.yml
 [link-scrutinizer]: https://scrutinizer-ci.com/g/yusufkandemir/microdata-parser/code-structure
 [link-code-quality]: https://scrutinizer-ci.com/g/yusufkandemir/microdata-parser
 [link-downloads]: https://packagist.org/packages/yusufkandemir/microdata-parser
