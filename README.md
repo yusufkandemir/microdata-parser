@@ -2,6 +2,7 @@
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
+[![PHP Version Support][ico-version]]([link-version])
 [![Tests][ico-tests]][link-tests]
 [![Coverage Status][ico-scrutinizer]][link-scrutinizer]
 [![Quality Score][ico-code-quality]][link-code-quality]
@@ -82,12 +83,14 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 [ico-version]: https://img.shields.io/packagist/v/yusufkandemir/microdata-parser.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/php-v/yusufkandemir/microdata-parser?style=flat-square
 [ico-tests]: https://img.shields.io/github/workflow/status/yusufkandemir/microdata-parser/run-tests?style=flat-square&label=Tests
 [ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/yusufkandemir/microdata-parser.svg?style=flat-square
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/yusufkandemir/microdata-parser.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/yusufkandemir/microdata-parser.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/yusufkandemir/microdata-parser
+[link-version]: https://packagist.org/packages/yusufkandemir/microdata-parser
 [link-tests]: https://github.com/yusufkandemir/microdata-parser/actions/workflows/run-tests.yml
 [link-scrutinizer]: https://scrutinizer-ci.com/g/yusufkandemir/microdata-parser/code-structure
 [link-code-quality]: https://scrutinizer-ci.com/g/yusufkandemir/microdata-parser
