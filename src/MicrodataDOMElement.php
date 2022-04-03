@@ -139,7 +139,7 @@ class MicrodataDOMElement extends \DOMElement
     {
         $childNodes = [];
 
-        /** @var \DOMNode $childNode */
+        /** @var self $childNode */
         foreach ($this->childNodes as $childNode) {
             if ($childNode->nodeType === \XML_ELEMENT_NODE) {
                 $childNodes[] = $childNode;
@@ -193,8 +193,9 @@ class MicrodataDOMElement extends \DOMElement
             foreach ($tokens as $token) {
                 $references = $this->ownerDocument->xpath->query('//*[@id="' . $token . '"]');
 
-                /** @var self $first */
-                if ($first = $references->item(0)) {
+                /** @var self|null $first */
+                $first = $references->item(0);
+                if ($first) {
                     $referenceNodes[] = $first;
                 }
             }

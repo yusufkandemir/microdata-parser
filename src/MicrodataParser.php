@@ -37,6 +37,8 @@ class MicrodataParser
 
     /**
      * Extracts and converts microdata to associative array.
+     *
+     * @return mixed[]
      */
     public function toArray(): array
     {
@@ -128,17 +130,15 @@ class MicrodataParser
     /**
      * Set absolute uri handler.
      */
-    public function setAbsoluteUriHandler(callable $handler)
+    public function setAbsoluteUriHandler(callable $handler): void
     {
         $this->absoluteUriHandler = $handler;
     }
 
     /**
      * Check if the given parameter is a MicrodataDOMElement and has itemscope attribute.
-     *
-     * @param $element
      */
-    protected function isItem($element): bool
+    protected function isItem(mixed $element): bool
     {
         return $element instanceof MicrodataDOMElement && $element->hasAttribute('itemscope');
     }

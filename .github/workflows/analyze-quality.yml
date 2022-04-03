@@ -1,0 +1,26 @@
+name: Analyze Code Quality
+
+on:
+  push:
+    paths:
+      - "**.php"
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.1"
+          coverage: none
+
+      - name: Install dependencies
+        run: composer update --prefer-dist --no-interaction
+
+      - name: Run the code quality analyzer
+        run: ./vendor/bin/phpstan
