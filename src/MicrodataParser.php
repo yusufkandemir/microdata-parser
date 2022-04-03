@@ -38,12 +38,14 @@ class MicrodataParser
     /**
      * Extracts and converts microdata to associative array.
      *
+     * @throws \JsonException
+     *
      * @return mixed[]
      */
     public function toArray(): array
     {
         // Somewhat hacky way to convert deep objects
-        return json_decode(json_encode($this->extractMicrodata()), true);
+        return json_decode(json_encode($this->extractMicrodata(), \JSON_THROW_ON_ERROR), true, flags: \JSON_THROW_ON_ERROR);
     }
 
     /**
@@ -55,15 +57,15 @@ class MicrodataParser
     }
 
     /**
-     * Extracts and converts microdata to json using \json_encode().
+     * Extracts and converts microdata to JSON using \json_encode().
      *
-     * @return false|string
+     * @see json_encode() to description of parameters
      *
-     * @see \json_encode() to description of parameters and return values
+     * @throws \JsonException
      */
-    public function toJSON(int $options = 0, int $depth = 512): bool|string
+    public function toJSON(int $options = 0, int $depth = 512): string
     {
-        return json_encode($this->extractMicrodata(), $options, $depth);
+        return json_encode($this->extractMicrodata(), $options | \JSON_THROW_ON_ERROR, $depth);
     }
 
     protected function extractMicrodata(): stdClass
