@@ -4,7 +4,10 @@ namespace YusufKandemir\MicrodataParser;
 
 class MicrodataDOMElement extends \DOMElement
 {
-    /** @var array "tag name" to "attribute name" mapping */
+    /** @var MicrodataDOMDocument */
+    public ?\DOMDocument $ownerDocument;
+
+    /** @var array<string, string> "tag name" to "attribute name" mapping */
     private static array $tagNameLookup = [
         'audio' => 'src',
         'embed' => 'src',
@@ -22,14 +25,17 @@ class MicrodataDOMElement extends \DOMElement
         'time' => 'datetime',
     ];
 
-    /** @var array Attributes that have absolute values */
+    /** @var string[] Attributes that have absolute values */
     private static array $absoluteAttributes = ['src', 'href', 'data'];
 
     /**
      * @see https://www.w3.org/TR/2018/WD-microdata-20180426/#dfn-item-properties for details of algorithm
+     *
+     * @return self[]
      */
     public function getProperties(): array
     {
+        /** @var self[] $results */
         $results = [];
         $memory = [$this];
         $pending = $this->getChildElementNodes();
@@ -39,8 +45,8 @@ class MicrodataDOMElement extends \DOMElement
         while ($pending) {
             $current = array_pop($pending);
 
-            foreach ($memory as $memory_item) {
-                if ($current->isSameNode($memory_item)) {
+            foreach ($memory as $memoryItem) {
+                if ($current->isSameNode($memoryItem)) {
                     continue 2; // Skip next part and continue while loop if memory contains $current
                 }
             }
@@ -66,6 +72,8 @@ class MicrodataDOMElement extends \DOMElement
 
     /**
      * @see https://www.w3.org/TR/2018/WD-microdata-20180426/#dfn-property-name
+     *
+     * @return string[]
      */
     public function getPropertyNames(): array
     {
@@ -116,25 +124,22 @@ class MicrodataDOMElement extends \DOMElement
     /**
      * Checks a string to see if its absolute uri or not
      * Note: As it uses a simple regex to check, it is not that reliable.
-     *
-     * @see \preg_match() for return values
-     *
-     * @return false|int
      */
-    protected function isAbsoluteUri(string $uri): bool|int
+    protected function isAbsoluteUri(string $uri): bool
     {
-        return preg_match("/^\w+:/", trim($uri));
+        return preg_match("/^\w+:/", trim($uri)) === 1;
     }
 
     /**
-     * Filters out TextNodes etc. and returns child ElementNodes as array.
+     * Filters out TextNodes etc. and returns the DOMElements.
      *
-     * @return array Result array which contains child ElementNodes
+     * @return self[]
      */
     protected function getChildElementNodes(): array
     {
         $childNodes = [];
 
+        /** @var \DOMNode $childNode */
         foreach ($this->childNodes as $childNode) {
             if ($childNode->nodeType === \XML_ELEMENT_NODE) {
                 $childNodes[] = $childNode;
@@ -149,39 +154,37 @@ class MicrodataDOMElement extends \DOMElement
      *
      * @param string $attributeName Name of the attribute
      *
-     * @return array|false
+     * @return string[]
      */
-    public function tokenizeAttribute(string $attributeName): array|bool
+    public function tokenizeAttribute(string $attributeName): array
     {
-        $attribute = [];
-
-        if ($this->hasAttribute($attributeName)) {
-            $attribute = $this->tokenize($this->getAttribute($attributeName));
-        }
-
-        return $attribute;
+        return $this->hasAttribute($attributeName)
+            ? $this->tokenize($this->getAttribute($attributeName))
+            : [];
     }
 
     /**
      * Splits given attribute value in space characters to array.
      *
-     * @return array|false
-     *
-     * @see \preg_split() for possible return values and behaviour
      * @see https://www.w3.org/TR/2018/WD-microdata-20180426/#dfn-split-a-string-on-spaces for definition of tokens
+     *
+     * @return string[]
      */
-    protected function tokenize(string $attribute): array|bool
+    protected function tokenize(string $attribute): array
     {
-        return preg_split('/\s+/', trim($attribute));
+        return preg_split('/\s+/', trim($attribute)) ?: [];
     }
 
     /**
      * Finds the nodes that this node references through the document.
      *
      * @see https://www.w3.org/TR/microdata/#dfn-item-properties 4th step
+     *
+     * @return self[]
      */
     protected function getReferenceNodes(): array
     {
+        /** @var self[] $referenceNodes */
         $referenceNodes = [];
 
         if ($this->hasAttribute('itemref')) {
@@ -190,6 +193,7 @@ class MicrodataDOMElement extends \DOMElement
             foreach ($tokens as $token) {
                 $references = $this->ownerDocument->xpath->query('//*[@id="' . $token . '"]');
 
+                /** @var self $first */
                 if ($first = $references->item(0)) {
                     $referenceNodes[] = $first;
                 }

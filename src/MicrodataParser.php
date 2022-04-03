@@ -14,7 +14,7 @@ class MicrodataParser
      *
      * Should return a string value
      *
-     * @var callable|null
+     * @var callable
      */
     private $absoluteUriHandler;
 
@@ -79,6 +79,8 @@ class MicrodataParser
 
     /**
      * @see https://www.w3.org/TR/2018/WD-microdata-20180426/#dfn-get-the-object
+     *
+     * @param MicrodataDOMElement[] $memory
      */
     protected function getObject(MicrodataDOMElement $item, array $memory = []): stdClass
     {
@@ -100,8 +102,8 @@ class MicrodataParser
             $value = $element->getPropertyValue($this->absoluteUriHandler);
 
             if ($this->isItem($value)) {
-                foreach ($memory as $memory_item) {
-                    if ($element->isSameNode($memory_item)) {
+                foreach ($memory as $memoryItem) {
+                    if ($element->isSameNode($memoryItem)) {
                         $value = 'ERROR';
 
                         break;
