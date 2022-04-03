@@ -1,37 +1,28 @@
 <?php
 
-namespace YusufKandemir\MicrodataParser\Tests;
-
-use DOMDocument;
 use YusufKandemir\MicrodataParser\Microdata;
 use YusufKandemir\MicrodataParser\MicrodataParser;
 
-class MicrodataTest extends \PHPUnit\Framework\TestCase
-{
-    protected string $htmlFileName = __DIR__ . '/data/W3C/source.html';
+$htmlFileName = __DIR__ . '/data/W3C/source.html';
 
-    public function testItCreatesMicrodataParserFromHtml()
-    {
-        $html = file_get_contents($this->htmlFileName);
-        $microdata = Microdata::fromHTML($html);
+test('it creates MicrodataParser from HTML', function () use ($htmlFileName) {
+    $html = file_get_contents($htmlFileName);
+    $microdata = Microdata::fromHTML($html);
 
-        $this->assertInstanceOf(MicrodataParser::class, $microdata);
-    }
+    expect($microdata)->toBeInstanceOf(MicrodataParser::class);
+});
 
-    public function testItCreatesMicrodataParserFromHtmlFile()
-    {
-        $microdata = Microdata::fromHTMLFile($this->htmlFileName);
+test('it creates MicrodataParser from HTML file', function () use ($htmlFileName) {
+    $microdata = Microdata::fromHTMLFile($htmlFileName);
 
-        $this->assertInstanceOf(MicrodataParser::class, $microdata);
-    }
+    expect($microdata)->toBeInstanceOf(MicrodataParser::class);
+});
 
-    public function testItCreatesMicrodataParserFromDomDocument()
-    {
-        $dom = new DOMDocument();
-        $dom->loadHTMLFile($this->htmlFileName);
+test('it creates MicrodataParser from DOMDocument', function () use ($htmlFileName) {
+    $dom = new DOMDocument();
+    $dom->loadHTMLFile($htmlFileName);
 
-        $microdata = Microdata::fromDOMDocument($dom);
+    $microdata = Microdata::fromDOMDocument($dom);
 
-        $this->assertInstanceOf(MicrodataParser::class, $microdata);
-    }
-}
+    expect($microdata)->toBeInstanceOf(MicrodataParser::class);
+});
