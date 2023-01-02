@@ -3,6 +3,7 @@
 namespace YusufKandemir\MicrodataParser\Tests;
 
 use function PHPUnit\Framework\assertJsonStringEqualsJsonString;
+
 use YusufKandemir\MicrodataParser\MicrodataDOMDocument;
 use YusufKandemir\MicrodataParser\MicrodataParser;
 

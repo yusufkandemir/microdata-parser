@@ -2,9 +2,6 @@
 
 namespace YusufKandemir\MicrodataParser;
 
-use DOMElement;
-use stdClass;
-
 class MicrodataParser
 {
     protected MicrodataDOMDocument $dom;
@@ -27,7 +24,7 @@ class MicrodataParser
      */
     public function __construct(MicrodataDOMDocument $dom, callable $absoluteUriHandler = null)
     {
-        $dom->registerNodeClass(DOMElement::class, MicrodataDOMElement::class);
+        $dom->registerNodeClass(\DOMElement::class, MicrodataDOMElement::class);
 
         $this->dom = $dom;
         $this->absoluteUriHandler = $absoluteUriHandler ?: function ($value, $base) {
@@ -38,9 +35,9 @@ class MicrodataParser
     /**
      * Extracts and converts microdata to associative array.
      *
-     * @throws \JsonException
-     *
      * @return mixed[]
+     *
+     * @throws \JsonException
      */
     public function toArray(): array
     {
@@ -51,7 +48,7 @@ class MicrodataParser
     /**
      * Extracts and converts microdata to object.
      */
-    public function toObject(): stdClass
+    public function toObject(): \stdClass
     {
         return $this->extractMicrodata();
     }
@@ -68,9 +65,9 @@ class MicrodataParser
         return json_encode($this->extractMicrodata(), $options | \JSON_THROW_ON_ERROR, $depth);
     }
 
-    protected function extractMicrodata(): stdClass
+    protected function extractMicrodata(): \stdClass
     {
-        $result = new stdClass();
+        $result = new \stdClass();
 
         $result->items = [];
 
@@ -86,9 +83,9 @@ class MicrodataParser
      *
      * @param MicrodataDOMElement[] $memory
      */
-    protected function getObject(MicrodataDOMElement $item, array $memory = []): stdClass
+    protected function getObject(MicrodataDOMElement $item, array $memory = []): \stdClass
     {
-        $result = new stdClass();
+        $result = new \stdClass();
 
         $memory[] = $item;
 
@@ -100,7 +97,7 @@ class MicrodataParser
         }
         // @todo Check if item ids are valid absolute urls or like isbn:xxx
 
-        $properties = new stdClass();
+        $properties = new \stdClass();
 
         foreach ($item->getProperties() as $element) {
             $value = $element->getPropertyValue($this->absoluteUriHandler);

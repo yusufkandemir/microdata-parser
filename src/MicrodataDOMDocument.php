@@ -5,9 +5,9 @@ namespace YusufKandemir\MicrodataParser;
 use DOMDocument;
 use DOMXPath;
 
-class MicrodataDOMDocument extends DOMDocument
+class MicrodataDOMDocument extends \DOMDocument
 {
-    public DOMXPath $xpath;
+    public \DOMXPath $xpath;
 
     /**
      * Get top-level items of the document.
@@ -25,11 +25,11 @@ class MicrodataDOMDocument extends DOMDocument
      * {@inheritdoc}
      * Also assigns $xpath with DOMXPath of freshly loaded DOMDocument.
      */
-    public function loadHTML($source, $options = 0): DOMDocument|bool
+    public function loadHTML($source, $options = 0): \DOMDocument|bool
     {
         $return = parent::loadHTML($source, $options);
 
-        $this->xpath = new DOMXPath($this);
+        $this->xpath = new \DOMXPath($this);
 
         return $return;
     }
@@ -38,11 +38,11 @@ class MicrodataDOMDocument extends DOMDocument
      * {@inheritdoc}
      * Also assigns $xpath with DOMXPath of freshly loaded DOMDocument.
      */
-    public function loadHTMLFile($filename, $options = 0): DOMDocument|bool
+    public function loadHTMLFile($filename, $options = 0): \DOMDocument|bool
     {
         $return = parent::loadHTMLFile($filename, $options);
 
-        $this->xpath = new DOMXPath($this);
+        $this->xpath = new \DOMXPath($this);
 
         return $return;
     }
