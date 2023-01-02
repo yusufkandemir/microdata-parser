@@ -87,8 +87,8 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [ico-version]: https://img.shields.io/packagist/v/yusufkandemir/microdata-parser.svg?style=flat-square
 [ico-php-version]: https://img.shields.io/packagist/php-v/yusufkandemir/microdata-parser?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-tests]: https://img.shields.io/github/workflow/status/yusufkandemir/microdata-parser/Tests?style=flat-square&logo=github&label=tests
-[ico-code-quality]: https://img.shields.io/github/workflow/status/yusufkandemir/microdata-parser/Analyze%20Code%20Quality?style=flat-square&logo=github&label=quality
+[ico-tests]: https://img.shields.io/github/actions/workflow/status/yusufkandemir/microdata-parser/run-tests.yml?style=flat-square&logo=github&label=tests
+[ico-code-quality]: https://img.shields.io/github/actions/workflow/status/yusufkandemir/microdata-parser/analyze-quality.yml?style=flat-square&logo=github&label=quality
 [ico-downloads]: https://img.shields.io/packagist/dt/yusufkandemir/microdata-parser.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/yusufkandemir/microdata-parser
