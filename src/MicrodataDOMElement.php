@@ -97,7 +97,7 @@ class MicrodataDOMElement extends \DOMElement
      *
      * @return $this|string
      */
-    public function getPropertyValue(callable $absoluteUriHandler = null): string|static
+    public function getPropertyValue(?callable $absoluteUriHandler = null): string|static
     {
         if ($this->hasAttribute('itemscope')) {
             return $this;

@@ -22,7 +22,7 @@ class MicrodataParser
      *
      * @see MicrodataParser::$absoluteUriHandler
      */
-    public function __construct(MicrodataDOMDocument $dom, callable $absoluteUriHandler = null)
+    public function __construct(MicrodataDOMDocument $dom, ?callable $absoluteUriHandler = null)
     {
         $dom->registerNodeClass(\DOMElement::class, MicrodataDOMElement::class);
 

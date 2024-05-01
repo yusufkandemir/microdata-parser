@@ -2,10 +2,10 @@
 
 namespace YusufKandemir\MicrodataParser\Tests;
 
-use function PHPUnit\Framework\assertJsonStringEqualsJsonString;
-
 use YusufKandemir\MicrodataParser\MicrodataDOMDocument;
 use YusufKandemir\MicrodataParser\MicrodataParser;
+
+use function PHPUnit\Framework\assertJsonStringEqualsJsonString;
 
 beforeAll(function () {
     libxml_use_internal_errors(true); // Ignore warnings of DOMDocument::loadHTML check
