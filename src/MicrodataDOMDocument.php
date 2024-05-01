@@ -22,7 +22,7 @@ class MicrodataDOMDocument extends \DOMDocument
      * {@inheritdoc}
      * Also assigns $xpath with DOMXPath of the freshly loaded DOMDocument.
      */
-    public function loadHTML($source, $options = 0): \DOMDocument|bool
+    public function loadHTML($source, $options = 0): bool
     {
         $return = parent::loadHTML($source, $options);
 
@@ -35,7 +35,7 @@ class MicrodataDOMDocument extends \DOMDocument
      * {@inheritdoc}
      * Also assigns $xpath with DOMXPath of the freshly loaded DOMDocument.
      */
-    public function loadHTMLFile($filename, $options = 0): \DOMDocument|bool
+    public function loadHTMLFile($filename, $options = 0): bool
     {
         $return = parent::loadHTMLFile($filename, $options);
 
