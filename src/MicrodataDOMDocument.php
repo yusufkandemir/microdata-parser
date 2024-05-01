@@ -2,9 +2,6 @@
 
 namespace YusufKandemir\MicrodataParser;
 
-use DOMDocument;
-use DOMXPath;
-
 class MicrodataDOMDocument extends \DOMDocument
 {
     public \DOMXPath $xpath;
@@ -23,7 +20,7 @@ class MicrodataDOMDocument extends \DOMDocument
 
     /**
      * {@inheritdoc}
-     * Also assigns $xpath with DOMXPath of freshly loaded DOMDocument.
+     * Also assigns $xpath with DOMXPath of the freshly loaded DOMDocument.
      */
     public function loadHTML($source, $options = 0): \DOMDocument|bool
     {
@@ -36,7 +33,7 @@ class MicrodataDOMDocument extends \DOMDocument
 
     /**
      * {@inheritdoc}
-     * Also assigns $xpath with DOMXPath of freshly loaded DOMDocument.
+     * Also assigns $xpath with DOMXPath of the freshly loaded DOMDocument.
      */
     public function loadHTMLFile($filename, $options = 0): \DOMDocument|bool
     {
@@ -45,5 +42,20 @@ class MicrodataDOMDocument extends \DOMDocument
         $this->xpath = new \DOMXPath($this);
 
         return $return;
+    }
+
+    /**
+     * Load a DOMDocument instance as the root of this document.
+     * Also assigns $xpath with DOMXPath of the freshly loaded DOMDocument.
+     * Also copies documentURI from the given DOMDocument.
+     */
+    public function loadDOMDocument(\DOMDocument $domDocument): void
+    {
+        $this->documentURI = $domDocument->documentURI;
+
+        $importedNode = $this->importNode($domDocument->documentElement, true);
+        $this->appendChild($importedNode);
+
+        $this->xpath = new \DOMXPath($this);
     }
 }

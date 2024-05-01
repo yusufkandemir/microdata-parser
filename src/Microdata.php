@@ -44,8 +44,7 @@ abstract class Microdata
     public static function fromDOMDocument(\DOMDocument $domDocument): MicrodataParser
     {
         $dom = new MicrodataDOMDocument();
-        $importedNode = $dom->importNode($domDocument->documentElement, true);
-        $dom->appendChild($importedNode);
+        $dom->loadDOMDocument($domDocument);
 
         return new MicrodataParser($dom);
     }
